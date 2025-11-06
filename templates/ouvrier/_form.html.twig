@@ -1,4 +1,45 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+    <div class="form-group">
+        {{ form_label(form.nom) }}
+        {{ form_widget(form.nom, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    
+    <div class="form-group">
+        {{ form_label(form.prenom) }}
+        {{ form_widget(form.prenom, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    
+    <div class="form-group">
+        {{ form_label(form.email) }}
+        {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    
+    <div class="form-group">
+        {{ form_label(form.telephone) }}
+        {{ form_widget(form.telephone, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    
+    <div class="form-group">
+        {{ form_label(form.specialite) }}
+        {{ form_widget(form.specialite, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    
+    <div class="form-group">
+        {{ form_label(form.date_empauche) }}
+        {{ form_widget(form.date_empauche, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    
+    <div class="form-group">
+        {{ form_label(form.salaire) }}
+        {{ form_widget(form.salaire, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    
+    <div class="form-group">
+        {{ form_label(form.actif) }}
+        {{ form_widget(form.actif) }}
+    </div>
+
+    <button class="btn btn-success">{{ button_label|default('Sauvegarder') }}</button>
+    
+    <a href="{{ path('app_ouvrier_index') }}" class="btn btn-primary">Retour à la liste</a>
 {{ form_end(form) }}

@@ -1,49 +1,120 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Ouvrier index{% endblock %}
+{% block title %}Liste des Ouvriers{% endblock %}
 
 {% block body %}
-    <h1>Ouvrier index</h1>
+<div class="container fade-in">
+    <div class="header">
+        <h1><i class="fas fa-hard-hat"></i> Gestion des Ouvriers</h1>
+        <p>Gérez efficacement votre équipe d'ouvriers</p>
+    </div>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Nom</th>
-                <th>Prenom</th>
-                <th>Email</th>
-                <th>Telephone</th>
-                <th>Specialite</th>
-                <th>Date_empauche</th>
-                <th>Salaire</th>
-                <th>Actif</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for ouvrier in ouvriers %}
-            <tr>
-                <td>{{ ouvrier.id }}</td>
-                <td>{{ ouvrier.nom }}</td>
-                <td>{{ ouvrier.prenom }}</td>
-                <td>{{ ouvrier.email }}</td>
-                <td>{{ ouvrier.telephone }}</td>
-                <td>{{ ouvrier.specialite }}</td>
-                <td>{{ ouvrier.dateEmpauche ? ouvrier.dateEmpauche|date('Y-m-d') : '' }}</td>
-                <td>{{ ouvrier.salaire }}</td>
-                <td>{{ ouvrier.actif ? 'Yes' : 'No' }}</td>
-                <td>
-                    <a href="{{ path('app_ouvrier_show', {'id': ouvrier.id}) }}">show</a>
-                    <a href="{{ path('app_ouvrier_edit', {'id': ouvrier.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="10">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <div class="content">
+        <div class="nav-actions">
+            <h2 style="color: var(--secondary-color); margin: 0;">
+                <i class="fas fa-list"></i> Liste des Ouvriers
+            </h2>
+            <a href="{{ path('app_ouvrier_new') }}" class="btn btn-success">
+                <i class="fas fa-plus"></i> Nouvel Ouvrier
+            </a>
+        </div>
 
-    <a href="{{ path('app_ouvrier_new') }}">Create new</a>
+        <div class="card">
+            <div class="table-container">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nom</th>
+                            <th>Prénom</th>
+                            <th>Email</th>
+                            <th>Téléphone</th>
+                            <th>Spécialité</th>
+                            <th>Date Embauche</th>
+                            <th>Salaire</th>
+                            <th>Statut</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for ouvrier in ouvriers %}
+                        <tr class="hover-lift">
+                            <td><strong>#{{ ouvrier.id }}</strong></td>
+                            <td>{{ ouvrier.nom }}</td>
+                            <td>{{ ouvrier.prenom }}</td>
+                            <td>{{ ouvrier.email }}</td>
+                            <td>{{ ouvrier.telephone ?? 'N/A' }}</td>
+                            <td>
+                                <span class="badge badge-warning">{{ ouvrier.specialite }}</span>
+                            </td>
+                            <td>{{ ouvrier.dateEmpauche ? ouvrier.dateEmpauche|date('d/m/Y') : 'N/A' }}</td>
+                            <td>
+                                <strong>{{ ouvrier.salaire }} €</strong>
+                            </td>
+                            <td>
+                                <span class="badge {{ ouvrier.actif ? 'badge-success' : 'badge-danger' }}">
+                                    {{ ouvrier.actif ? 'Actif' : 'Inactif' }}
+                                </span>
+                            </td>
+                            <td>
+                                <div class="actions">
+                                    <a href="{{ path('app_ouvrier_show', {'id': ouvrier.id}) }}" 
+                                       class="action-btn action-view"
+                                       title="Voir détails">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a href="{{ path('app_ouvrier_edit', {'id': ouvrier.id}) }}" 
+                                       class="action-btn action-edit"
+                                       title="Modifier">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="10" class="text-center" style="padding: 40px;">
+                                <i class="fas fa-inbox" style="font-size: 3rem; color: #bdc3c7; margin-bottom: 15px;"></i>
+                                <h3 style="color: #7f8c8d;">Aucun ouvrier trouvé</h3>
+                                <p style="color: #95a5a6;">Commencez par ajouter votre premier ouvrier</p>
+                                <a href="{{ path('app_ouvrier_new') }}" class="btn btn-primary mt-4">
+                                    <i class="fas fa-plus"></i> Ajouter le premier ouvrier
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        {% if ouvriers|length > 0 %}
+        <div class="text-center mt-4">
+            <div class="card glass-effect">
+                <h4 style="color: var(--secondary-color); margin-bottom: 15px;">
+                    <i class="fas fa-chart-bar"></i> Statistiques
+                </h4>
+                <div class="d-flex justify-content-between" style="flex-wrap: wrap; gap: 20px;">
+                    <div>
+                        <h3 style="color: var(--primary-color); margin: 0;">{{ ouvriers|length }}</h3>
+                        <small>Total ouvriers</small>
+                    </div>
+                    <div>
+                        <h3 style="color: var(--success-color); margin: 0;">
+                            {{ ouvriers|filter(o => o.actif)|length }}
+                        </h3>
+                        <small>Ouvriers actifs</small>
+                    </div>
+                    <div>
+                        <h3 style="color: var(--warning-color); margin: 0;">
+                            {{ ouvriers|filter(o => not o.actif)|length }}
+                        </h3>
+                        <small>Ouvriers inactifs</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
 {% endblock %}

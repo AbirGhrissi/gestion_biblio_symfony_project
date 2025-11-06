@@ -14,6 +14,34 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/ouvrier')]
 final class OuvrierController extends AbstractController
 {
+    #[Route('/{id}/edit', name: 'app_ouvrier_edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, Ouvrier $ouvrier, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(OuvrierType::class, $ouvrier);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_ouvrier_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('ouvrier/edit.html.twig', [
+            'ouvrier' => $ouvrier,
+            'form' => $form,
+        ]);
+    }
+
+
+    #[Route('/{id}', name: 'app_ouvrier_show', methods: ['GET'])]
+    public function show(Ouvrier $ouvrier): Response
+    {
+        return $this->render('ouvrier/show.html.twig', [
+            'ouvrier' => $ouvrier,
+        ]);
+    }
+
+    
     #[Route(name: 'app_ouvrier_index', methods: ['GET'])]
     public function index(OuvrierRepository $ouvrierRepository): Response
     {
@@ -42,31 +70,6 @@ final class OuvrierController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_ouvrier_show', methods: ['GET'])]
-    public function show(Ouvrier $ouvrier): Response
-    {
-        return $this->render('ouvrier/show.html.twig', [
-            'ouvrier' => $ouvrier,
-        ]);
-    }
-
-    #[Route('/{id}/edit', name: 'app_ouvrier_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Ouvrier $ouvrier, EntityManagerInterface $entityManager): Response
-    {
-        $form = $this->createForm(OuvrierType::class, $ouvrier);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_ouvrier_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->render('ouvrier/edit.html.twig', [
-            'ouvrier' => $ouvrier,
-            'form' => $form,
-        ]);
-    }
 
     #[Route('/{id}', name: 'app_ouvrier_delete', methods: ['POST'])]
     public function delete(Request $request, Ouvrier $ouvrier, EntityManagerInterface $entityManager): Response

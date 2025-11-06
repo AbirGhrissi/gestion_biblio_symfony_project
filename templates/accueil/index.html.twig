@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil - Bibliothèque{% endblock %}
+
+{% block body %}
+<div style="max-width: 800px; margin: 50px auto; text-align: center;">
+    <h1>Bibliothèque</h1>
+    <p>Gestion de la bibliothèque</p>
+    
+    <div style="display: flex; gap: 20px; justify-content: center; margin-top: 40px;">
+        <div style="border: 1px solid #ccc; padding: 20px; border-radius: 5px;">
+            <h3>Auteurs</h3>
+            <p>Gérer les auteurs</p>
+            <a href="{{ path('app_auteur_index') }}" style="display: inline-block; padding: 10px 20px; background: #007bff; color: white; text-decoration: none; border-radius: 3px;">
+                Voir les auteurs
+            </a>
+        </div>
+        
+        <div style="border: 1px solid #ccc; padding: 20px; border-radius: 5px;">
+            <h3>Livres</h3>
+            <p>Gérer les livres</p>
+            <a href="{{ path('app_livre_index') }}" style="display: inline-block; padding: 10px 20px; background: #007bff; color: white; text-decoration: none; border-radius: 3px;">
+                Voir les livres
+            </a>
+        </div>
+        
+        <div style="border: 1px solid #ccc; padding: 20px; border-radius: 5px;">
+            <h3>Éditeurs</h3>
+            <p>Gérer les éditeurs</p>
+            <a href="{{ path('app_editeur_index') }}" style="display: inline-block; padding: 10px 20px; background: #007bff; color: white; text-decoration: none; border-radius: 3px;">
+                Voir les éditeurs
+            </a>
+        </div>
+
+        <div style="border: 1px solid #ccc; padding: 20px; border-radius: 5px;">
+            <h3>Catégories</h3>
+            <p>Gérer les catégories</p>
+            <a href="{{ path('app_categorie_index') }}" style="display: inline-block; padding: 10px 20px; background: #007bff; color: white; text-decoration: none; border-radius: 3px;">
+                Voir les catégories
+            </a>
+        </div>
+    </div>
+     <div style="border: 1px solid #ccc; padding: 20px; border-radius: 5px;">
+            
+            <p>Mon livre préféré</p>
+            <a href="{{ path('app_livre_show', {'id': 1})}}" style="display: inline-block; padding: 10px 20px; background: #007bff; color: white; text-decoration: none; border-radius: 3px;">
+                Voir le livre
+            </a>
+        </div>
+
+        <div style="border: 1px solid #ccc; padding: 20px; border-radius: 5px;">
+            
+            <p>Faire un recherche !</p>
+            <a href="{{ path('app_recherche')}}" style="display: inline-block; padding: 10px 20px; background: #007bff; color: white; text-decoration: none; border-radius: 3px;">
+                Rechercher 
+            </a>
+        </div>
+</div>
+{% endblock %}

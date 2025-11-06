@@ -1,0 +1,113 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Recherche{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="search-container">
+        <div class="search-header">
+            <h1>Recherche</h1>
+        </div>
+
+        <div class="search-form card">
+            {{ form_start(form, {'attr': {'class': 'form'}}) }}
+                <div class="form-row">
+                    <div class="form-group form-group-search">
+                        {{ form_widget(form.search, {
+                            'attr': {
+                                'class': 'form-control',
+                                'placeholder': 'Entrez votre recherche...'
+                            }
+                        }) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_widget(form.btn, {
+                            'attr': {
+                                'class': 'btn btn-primary btn-search'
+                            }
+                        }) }}
+                    </div>
+                </div>
+            {{ form_end(form) }}
+        </div>
+
+        {# Toujours afficher le mot recherché #}
+        <p>Mot recherché : {{ mot|default('vide') }}</p>
+
+        {% if mot %}
+            <div class="results-container">
+                <div class="results-header card">
+                    <h2>Résultats pour "{{ mot }}"</h2>
+                </div>
+
+                {% if results.livres is not empty %}
+                    <div class="card results-section">
+                        <h3>Livres</h3>
+                        {% for livre in results.livres %}
+                            <div class="result-item">
+                                <div class="result-content">
+                                    <strong>{{ livre.titre }}</strong>
+                                    <div class="result-meta">
+                                        <span>{{ livre.prix }} €</span>
+                                        <span>ISBN: {{ livre.isbn }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                {% if results.auteurs is not empty %}
+                    <div class="card results-section">
+                        <h3>Auteurs</h3>
+                        {% for auteur in results.auteurs %}
+                            <div class="result-item">
+                                <div class="result-content">
+                                    <strong>{{ auteur.prenom }} {{ auteur.nom }}</strong>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                {% if results.categories is not empty %}
+                    <div class="card results-section">
+                        <h3>Catégories</h3>
+                        {% for categorie in results.categories %}
+                            <div class="result-item">
+                                <div class="result-content">
+                                    <strong>{{ categorie.designation }}</strong>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                {% if results.editeurs is not empty %}
+                    <div class="card results-section">
+                        <h3>Éditeurs</h3>
+                        {% for editeur in results.editeurs %}
+                            <div class="result-item">
+                                <div class="result-content">
+                                    <strong>{{ editeur.nom }}</strong>
+                                    <div class="result-meta">
+                                        <span>{{ editeur.pays }}</span>
+                                        <span>{{ editeur.telephone }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                {% if results.livres is empty and results.auteurs is empty and 
+                      results.categories is empty and results.editeurs is empty %}
+                    <div class="card no-results">
+                        <p>Aucun résultat trouvé.</p>
+                    </div>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
